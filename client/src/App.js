@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-
 import { Route, Switch, Redirect } from "react-router-dom";
 import MovieList from "./components/MovieList";
 import Movie from "./components/Movie";
-
 import MovieHeader from "./components/MovieHeader";
-
 import EditMovieForm from "./components/EditMovieForm";
 import FavoriteMovieList from "./components/FavoriteMovieList";
-
 import axios from "axios";
+import { API_URL_MOVIES } from "./constant/constant";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
@@ -17,7 +14,7 @@ const App = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/movies")
+      .get(API_URL_MOVIES)
       .then((res) => {
         setMovies(res.data);
       })
