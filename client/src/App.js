@@ -77,7 +77,9 @@ const App = (props) => {
       });
   };
 
-  const addToFavorites = (movie) => {};
+  const addToFavorites = (movie) => {
+    setFavoriteMovies([...favoriteMovies, movie]);
+  };
 
   return (
     <div>

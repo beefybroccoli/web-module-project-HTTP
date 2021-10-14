@@ -4,14 +4,15 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import { API_URL_MOVIES_ID } from "../constant/constant";
 import DeleteMovieModal from "./DeleteMovieModal";
+import ContextObject from "../context/context";
+import { useContext } from "react";
 
 const Movie = (props) => {
-  const { addToFavorites } = props;
-
   const [movie, setMovie] = useState("");
   const { id } = useParams();
   const { push } = useHistory();
   const [deleteModal, set_deleteModal] = useState(false);
+  const { addToFavorites } = useContext(ContextObject);
 
   useEffect(() => {
     axios
@@ -26,6 +27,10 @@ const Movie = (props) => {
 
   const cb_onClickDelete = () => {
     set_deleteModal(true);
+  };
+
+  const cb_onClickFavorite = () => {
+    addToFavorites(movie);
   };
 
   return (
@@ -67,7 +72,9 @@ const Movie = (props) => {
               </section>
 
               <section>
-                <span className="m-2 btn btn-dark">Favorite</span>
+                <span className="m-2 btn btn-dark" onClick={cb_onClickFavorite}>
+                  Favorite
+                </span>
                 <Link
                   to={`/movies/edit/${movie.id}`}
                   className="m-2 btn btn-success"
@@ -86,7 +93,7 @@ const Movie = (props) => {
             </div>
           </div>
         </div>
-        {deleteModal && <DeleteMovieModal movie={movie}/>}
+        {deleteModal && <DeleteMovieModal movie={movie} />}
       </div>
     </div>
   );
