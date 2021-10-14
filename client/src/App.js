@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Provider } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import MovieList from "./components/MovieList";
 import Movie from "./components/Movie";
@@ -7,6 +7,7 @@ import EditMovieForm from "./components/EditMovieForm";
 import FavoriteMovieList from "./components/FavoriteMovieList";
 import axios from "axios";
 import { API_URL_MOVIES } from "./constant/constant";
+import ContextObject from "./context/context";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
@@ -23,6 +24,21 @@ const App = (props) => {
       });
   }, []);
 
+  useEffect(() => {
+    console.log("App.js - changes in movies, movies = ", movies);
+  }, [movies]);
+  const replaceMovie = (newMovie) => {
+    console.log("app.js, new movie = ", newMovie);
+    const temp_movies = movies.map((each) => {
+      if (each.id === JSON.stringify(newMovie.id)) {
+        return newMovie;
+      } else {
+        return each;
+      }
+    });
+    setMovies(temp_movies);
+  };
+
   const deleteMovie = (id) => {};
 
   const addToFavorites = (movie) => {};
@@ -37,26 +53,40 @@ const App = (props) => {
       </nav>
 
       <div className="container">
-        <MovieHeader />
-        <div className="row ">
-          <FavoriteMovieList favoriteMovies={favoriteMovies} />
+        <ContextObject.Provider
+          value={{
+            movies,
+            setMovies,
+            favoriteMovies,
+            setFavoriteMovies,
+            replaceMovie,
+            deleteMovie,
+            addToFavorites,
+          }}
+        >
+          <MovieHeader />
+          <div className="row ">
+            <FavoriteMovieList favoriteMovies={favoriteMovies} />
 
-          <Switch>
-            <Route path="/movies/edit/:id"></Route>
+            <Switch>
+              <Route path="/movies/edit/:id">
+                <EditMovieForm />
+              </Route>
 
-            <Route path="/movies/:id">
-              <Movie />
-            </Route>
+              <Route path="/movies/:id">
+                <Movie />
+              </Route>
 
-            <Route path="/movies">
-              <MovieList movies={movies} />
-            </Route>
+              <Route path="/movies">
+                <MovieList movies={movies} />
+              </Route>
 
-            <Route path="/">
-              <Redirect to="/movies" />
-            </Route>
-          </Switch>
-        </div>
+              <Route path="/">
+                <Redirect to="/movies" />
+              </Route>
+            </Switch>
+          </div>
+        </ContextObject.Provider>
       </div>
     </div>
   );
