@@ -68,8 +68,8 @@ const App = (props) => {
     axios
       .post(API_URL_MOVIES, movie)
       .then((res) => {
-        console.log(res);
-        setMovies([...movies, movie]);
+        console.log("addNewMovie, res = ", res);
+        setMovies([...movies, res.data[res.data.length - 1]]);
         history.push("/movies");
       })
       .catch((error) => {

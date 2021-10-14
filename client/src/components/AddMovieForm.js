@@ -7,7 +7,7 @@ const AddMovieForm = (props) => {
   const { push } = useHistory();
   const { addNewMovie } = useContext(ContextObject);
   const initialState = {
-    id: Date.now(),
+    id: null,
     title: "(title)",
     director: "(director)",
     genre: "(genre)",
@@ -31,19 +31,6 @@ const AddMovieForm = (props) => {
   };
 
   const { title, director, genre, metascore, description } = movie;
-
-  useEffect(() => {
-    // console.log("params = ", id);
-    // axios
-    //   .get(API_URL_MOVIES_ID + id)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     setMovie(res.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  }, []);
 
   return (
     <div className="col">
