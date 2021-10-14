@@ -4,6 +4,7 @@ import MovieList from "./components/MovieList";
 import Movie from "./components/Movie";
 import MovieHeader from "./components/MovieHeader";
 import EditMovieForm from "./components/EditMovieForm";
+import AddMovieForm from "./components/AddMovieForm";
 import FavoriteMovieList from "./components/FavoriteMovieList";
 import axios from "axios";
 import { API_URL_MOVIES } from "./constant/constant";
@@ -95,6 +96,10 @@ const App = (props) => {
                 <EditMovieForm />
               </Route>
 
+              <Route path="/movies/add">
+                <AddMovieForm />
+              </Route>
+
               <Route path="/movies/:id">
                 <Movie />
               </Route>
@@ -115,7 +120,3 @@ const App = (props) => {
 };
 
 export default App;
-
-/*
-
-*/
