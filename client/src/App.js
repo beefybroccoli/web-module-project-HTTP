@@ -29,6 +29,7 @@ const App = (props) => {
   useEffect(() => {
     console.log("App.js - changes in movies, movies = ", movies);
   }, [movies]);
+
   const replaceMovie = (newMovie) => {
     console.log("app.js, new movie = ", newMovie);
     const temp_movies = movies.map((each) => {
@@ -43,22 +44,23 @@ const App = (props) => {
   };
 
   const deleteMovie = (id) => {
-    console.log("user want to delete movie with id = ", id);
+    // console.log("user want to delete movie with id = ", id);
     axios
       .delete(API_URL_MOVIES_ID + id)
       .then((res) => {
-        console.log(res);
+        console.log("delete result = ", res);
         const temp_movies = movies.filter((each) => {
-          if (each.id !== JSON.stringify(id)) {
+          if (each.id !== id) {
             return each;
           }
         });
+        // console.log("temp_movies = ", temp_movies);
         setMovies(temp_movies);
+        history.push("/movies");
       }) //end then
       .catch((error) => {
         console.log(error);
       }); //end catch
-    history.push("/movies");
   };
 
   const addToFavorites = (movie) => {};
