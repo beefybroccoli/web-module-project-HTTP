@@ -1,21 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-
-import axios from "axios";
-import { API_URL_MOVIES_ID } from "../constant/constant";
 import ContextObject from "../context/context";
 
-const EditMovieForm = (props) => {
+const AddMovieForm = (props) => {
   const { push } = useHistory();
-  const { replaceMovie } = useContext(ContextObject);
+  const { addNewMovie } = useContext(ContextObject);
   const initialState = {
     id: Date.now(),
-    title: "",
-    director: "",
-    genre: "",
-    metascore: 0,
-    description: "",
+    title: "(title)",
+    director: "(director)",
+    genre: "(genre)",
+    metascore: 50,
+    description: "(description)",
   };
 
   const [movie, setMovie] = useState(initialState);
@@ -27,21 +24,10 @@ const EditMovieForm = (props) => {
     });
   };
 
-  const cb_onClickAdd = () => {
-    // axios
-    //   .put(API_URL_MOVIES_ID + id, movie)
-    //   .then((resp) => {
-    //     console.log("resp.data[id] = ", resp.data[id]);
-    //     replaceMovie(resp.data[id]);
-    //     push("/movies/" + id);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    addNewMovie(movie);
+    setMovie(initialState);
   };
 
   const { title, director, genre, metascore, description } = movie;
@@ -120,12 +106,7 @@ const EditMovieForm = (props) => {
             </div>
           </div>
           <div className="modal-footer">
-            <input
-              type="submit"
-              className="btn btn-info"
-              value="Add"
-              onClick={cb_onClickAdd}
-            />
+            <input type="submit" className="btn btn-info" value="Add" />
             <Link to={`/movies/1`}>
               <input type="button" className="btn btn-default" value="Cancel" />
             </Link>
@@ -136,4 +117,4 @@ const EditMovieForm = (props) => {
   );
 };
 
-export default EditMovieForm;
+export default AddMovieForm;

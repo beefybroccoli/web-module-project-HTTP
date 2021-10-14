@@ -34,7 +34,7 @@ const App = (props) => {
   const replaceMovie = (newMovie) => {
     console.log("app.js, new movie = ", newMovie);
     const temp_movies = movies.map((each) => {
-      if (each.id === JSON.stringify(newMovie.id)) {
+      if (each.id === newMovie.id) {
         return newMovie;
       } else {
         return each;
@@ -64,6 +64,19 @@ const App = (props) => {
       }); //end catch
   };
 
+  const addNewMovie = (movie) => {
+    axios
+      .post(API_URL_MOVIES, movie)
+      .then((res) => {
+        console.log(res);
+        setMovies([...movies, movie]);
+        history.push("/movies");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const addToFavorites = (movie) => {};
 
   return (
@@ -85,6 +98,7 @@ const App = (props) => {
             replaceMovie,
             deleteMovie,
             addToFavorites,
+            addNewMovie,
           }}
         >
           <MovieHeader />
