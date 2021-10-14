@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Provider } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import MovieList from "./components/MovieList";
 import Movie from "./components/Movie";
 import MovieHeader from "./components/MovieHeader";
@@ -8,10 +8,12 @@ import FavoriteMovieList from "./components/FavoriteMovieList";
 import axios from "axios";
 import { API_URL_MOVIES } from "./constant/constant";
 import ContextObject from "./context/context";
+import { API_URL_MOVIES_ID } from "./constant/constant";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -37,9 +39,27 @@ const App = (props) => {
       }
     });
     setMovies(temp_movies);
+    history.push("/movies");
   };
 
-  const deleteMovie = (id) => {};
+  const deleteMovie = (id) => {
+    console.log("user want to delete movie with id = ", id);
+    axios
+      .delete(API_URL_MOVIES_ID + id)
+      .then((res) => {
+        console.log(res);
+        const temp_movies = movies.filter((each) => {
+          if (each.id !== JSON.stringify(id)) {
+            return each;
+          }
+        });
+        setMovies(temp_movies);
+      }) //end then
+      .catch((error) => {
+        console.log(error);
+      }); //end catch
+    history.push("/movies");
+  };
 
   const addToFavorites = (movie) => {};
 

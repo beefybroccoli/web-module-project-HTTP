@@ -3,14 +3,15 @@ import { Link, useParams, useHistory } from "react-router-dom";
 
 import axios from "axios";
 import { API_URL_MOVIES_ID } from "../constant/constant";
+import DeleteMovieModal from "./DeleteMovieModal";
 
 const Movie = (props) => {
   const { addToFavorites } = props;
 
   const [movie, setMovie] = useState("");
-
   const { id } = useParams();
   const { push } = useHistory();
+  const [deleteModal, set_deleteModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -22,6 +23,10 @@ const Movie = (props) => {
         console.log(err.response);
       });
   }, [id]);
+
+  const cb_onClickDelete = () => {
+    set_deleteModal(true);
+  };
 
   return (
     <div className="modal-page col">
@@ -74,12 +79,14 @@ const Movie = (props) => {
                     type="button"
                     className="m-2 btn btn-danger"
                     value="Delete"
+                    onClick={cb_onClickDelete}
                   />
                 </span>
               </section>
             </div>
           </div>
         </div>
+        {deleteModal && <DeleteMovieModal movie={movie}/>}
       </div>
     </div>
   );

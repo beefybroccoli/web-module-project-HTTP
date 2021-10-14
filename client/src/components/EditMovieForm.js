@@ -30,7 +30,7 @@ const EditMovieForm = (props) => {
     axios
       .put(API_URL_MOVIES_ID + id, movie)
       .then((resp) => {
-        console.log(resp.data[id]);
+        console.log("resp.data[id] = ", resp.data[id]);
         replaceMovie(resp.data[id]);
         push("/movies/" + id);
       })
