@@ -49,7 +49,7 @@ const App = (props) => {
       .then((res) => {
         console.log(res);
         const temp_movies = movies.filter((each) => {
-          if (each.id !== JSON.stringify(id)) {
+          if (each.id !== id) {
             return each;
           }
         });
